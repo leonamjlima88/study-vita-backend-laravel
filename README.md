@@ -54,16 +54,15 @@ Também vou disponibilizar o outro projeto backend.
 
 ### Instalação do projeto
 Requer php ^8.0.2
-É só baixar o projeto, rodar composer install e php artisan serve.
-No meu caso utilizei laradock com nginx
-É necessário criar um banco de dados no MySQL e configurar o arquivo .env
+É só baixar o projeto, rodar composer install e php artisan serve. No meu caso utilizei laradock com nginx. É necessário criar um banco de dados no MySQL e configurar o arquivo .env
 
-DB_CONNECTION=mysql
-DB_HOST=ip
-DB_PORT=porta
-DB_DATABASE=nomeDoBanco
-DB_USERNAME=mysqlUsuario
-DB_PASSWORD=mysqlSenha
+- DB_CONNECTION=mysql
+- DB_HOST=ip
+- DB_PORT=porta
+- DB_DATABASE=nomeDoBanco
+- DB_USERNAME=mysqlUsuario
+- DB_PASSWORD=mysqlSenha
+
 
 Execute o método php artisan migrate para criar as tabelas
 
