@@ -7,45 +7,55 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## study-vita-backend-laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Cadastro de oportunidades de vendas.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Domínios:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Clientes
+- Vendedores
+- Produtos
+- Oportunidades de Venda
 
-## Learning Laravel
+## Camadas do projeto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Controller
+Responsável por orquestrar as funcionalidades do projeto.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### DTO (Data Transfer Object)
+Faz o papel da model na transferência de dados entre as camadas. É um objeto totalmente desacoplado da camada de persistência. Tem responsabilidade de trafegar os dados, validar requisições (entrada), formatar dados nas respostas (saída).
 
-## Laravel Sponsors
+### Service Layer
+Tem a responsabilidade de centralizar as regras de negócio, permitir o reuso para outros services, e deve ser a ultima barreira até chegar em repositories.
+Nesse padrão de projeto adotado (Service layer, que é diferente do Service adotado em DDD), qualquer requisição deve passar por service, mesmo que seja uma simples consulta de dados. Nenhuma camada deve acessar o repository a não ser que o dominio seja o proprietário.
+Esse modelo faz com que você escreva códigos redundantes, alguns métodos do service acabam se tornando procedurais, porém, acredito que isso traz segurança e organização ao projeto em larga escala com programadores de todos os níveis de conhecimento.
+Observação: Eu poderia ter adotado o principio de solid de responsabilidade única que é o ideal para a camada service. Porém, devido ao tamanho do projeto, acabei decidindo fazer um único arquivo para cada domínio.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Repository
+Camada responsável pela persistência e consulta do banco de dados. Nenhuma outra camada deverá ter acesso aos dados sem que passe por Service > Repository.
+As models são instanciadas em repositories, utilizadas e destruidas ao termino do processo.
 
-### Premium Partners
+### Repository (BaseRepository)
+Classe abstrata para auxiliar repositories.
+Contém métodos para pesquisa de forma dinâmica. Qualquer repository que implemente esta classe terá por padrão pesquisa para todos os campos da tabela, e até mesmo para campos do tipo join. Poderá escolher colunas de retorno, configurações de página e outros recursos.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Model
+Entidade que reflete a tabela do banco de dados e possibilita o CRUD. Algumas model contém casts (float, boolean, enum). Contém conversão da model para DTO.
+
+### O que não foi feito?
+- Autenticação JWT
+- Plano de testes
+- Laravel Telescope
+- Permissão de acesso a rotas
+
+Observação: Desenvolvi outro projeto backend com esses recursos. Porém, devido ao meu tempo escasso e desconhecimento de recursos no frontend optei por fazer um downgrade do projeto backend.
+Também vou disponibilizar o outro projeto backend.
+
+### Procedimento para instalação do projeto
+Efetue o git clone do projeto
+
+
 
 ## Contributing
 
