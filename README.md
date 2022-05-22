@@ -52,22 +52,21 @@ Entidade que reflete a tabela do banco de dados e possibilita o CRUD. Algumas mo
 Observação: Desenvolvi outro projeto backend com esses recursos. Porém, devido ao meu tempo escasso e desconhecimento de recursos no frontend optei por fazer um downgrade do projeto backend.
 Também vou disponibilizar o outro projeto backend.
 
-### Procedimento para instalação do projeto
-Efetue o git clone do projeto
+### Instalação do projeto
+Requer php ^8.0.2
+É só baixar o projeto, rodar composer install e php artisan serve.
+No meu caso utilizei laradock com nginx
+É necessário criar um banco de dados no MySQL e configurar o arquivo .env
 
+DB_CONNECTION=mysql
+DB_HOST=ip
+DB_PORT=porta
+DB_DATABASE=nomeDoBanco
+DB_USERNAME=mysqlUsuario
+DB_PASSWORD=mysqlSenha
 
+Execute o método php artisan migrate para criar as tabelas
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
