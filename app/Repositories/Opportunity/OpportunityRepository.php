@@ -124,7 +124,7 @@ class OpportunityRepository extends BaseRepository
       // Atualizar Opportunity
       tap($modelFound)->update($data);
 
-      // Atualizar OpportunityAddress
+      // Atualizar OpportunityProduct
       $modelFound->opportunityProduct()->delete();
       $modelFound->opportunityProduct()->createMany($data['opportunity_product']);
 
