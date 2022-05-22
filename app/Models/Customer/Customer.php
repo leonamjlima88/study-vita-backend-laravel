@@ -52,6 +52,6 @@ class Customer extends Model
         static::saving(fn ($model) => $model->ein = onlyNumbers($model->ein ?? ''));
 
         // Formatar dados após recuperar a informação
-        static::retrieved(fn ($model) => $model->ein = formatCpfCnpj($model->ein ?? ''));
+        static::retrieved(fn ($model) => $model->ein ? $model->ein = formatCpfCnpj($model->ein ?? '') : null);        
     }    
 }
