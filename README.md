@@ -112,15 +112,21 @@ Opções de Operador
 
 Com base nessas explicações, vamos criar alguns exemplos
 
-Filtrar vendedor por um conjunto de caracteres que contenha no início do campo nome.
+- Filtrar vendedor por um conjunto de caracteres que contenha no início do campo nome.
+ 
 filter[where][seller.name][likeInitial] : "conteúdo a ser pesquisado"
 
-Filtrar vendedor por um cnpj que seja igual a...
+
+- Filtrar vendedor por um cnpj que seja igual a...
+ 
 filter[where][seller.ein][equal] : "conteúdo a ser pesquisado"
 
-Filtrar oportunidades de venda por período de cadastro
+
+- Filtrar oportunidades de venda por período de cadastro
+ 
 filter[where][opportunity.created_at][greaterOrEqual] : "2022-05-01T00:00:00"
 filter[where][opportunity.created_at][lessOrEqual] : "2022-05-22T23:59:59"
+
 
 Você pode combinar where com orWhere, incluir quantos filtros você quiser ao mesmo tempo.
 
