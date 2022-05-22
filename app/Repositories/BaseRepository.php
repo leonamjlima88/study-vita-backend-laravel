@@ -159,9 +159,11 @@ abstract class BaseRepository
   public function indexGetAndPaginate(Builder $queryBuilder, String $selectRaw = '*'): array
   {
     // Campos a serem exibidos (Necessário se houver join)
-    (($this->page['columns'][0] === '*') && (count($this->page['columns']) === 1))
-      ? $queryBuilder->selectRaw($selectRaw)
-      : $queryBuilder->selectRaw($this->page['columns']);
+    if (($this->page['columns'][0] === '*') && (count($this->page['columns']) === 1)) {
+      $queryBuilder->selectRaw($selectRaw);
+    } else {
+      $queryBuilder->selectRaw($this->page['columns']);
+    }    
 
     // Paginação
     $queryBuilder = match ($this->page['paginate']) {
@@ -175,7 +177,7 @@ abstract class BaseRepository
     return (($this->page['onlyData'] == 1) && ($this->page['paginate'] <= 2))
       ? $queryBuilder->toArray()['data']
       : $queryBuilder->toArray();
-  }  
+  }
 
   /**
    * Localizar um único registro por ID

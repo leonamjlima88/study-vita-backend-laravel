@@ -22,7 +22,7 @@ class OpportunityRepository extends BaseRepository
 
   /**
    * Método executado dentro de BaseRepository.index()
-   * Adicionar join de tabelas e mostrar colunas específicas
+   * Adicionar join de tabelas e mostra colunas específicas
    *
    * @param Builder $queryBuilder
    * @return array
@@ -33,15 +33,29 @@ class OpportunityRepository extends BaseRepository
     return [
       $queryBuilder
         ->leftJoin('customer', 'customer.id', 'opportunity.customer_id')
-        ->leftJoin('seller', 'seller.id', 'opportunity.seller_id')
-        ->withSum('opportunityProduct', 'sale_amount')
-        ->withSum('opportunityProduct', 'sale_quantity'),
+        ->leftJoin('seller', 'seller.id', 'opportunity.seller_id'),
+        // ->withSum('opportunityProduct', 'sale_amount') 
+        // ->withSum('opportunityProduct', 'sale_quantity'),
       'opportunity.*, ' .
       'customer.business_name as customer_business_name, ' .
       'customer.alias_name    as customer_alias_name, ' .
       'customer.ein           as customer_ein, ' .
-      'seller.name            as seller_name ',
+      'seller.name            as seller_name, ' .
+      '(select sum(opportunity_product.sale_amount) from opportunity_product ' . 
+      'where opportunity.id = opportunity_product.opportunity_id) as opportunity_product_sum_sale_amount, ' .
+      '(select sum(opportunity_product.sale_quantity) from opportunity_product ' . 
+      'where opportunity.id = opportunity_product.opportunity_id) as opportunity_product_sum_sale_quantity ',
     ];
+
+    // OBSERVAÇÃO:
+    // O codigo select sum de opportunity product poderia ser facilmente trocado por
+    // ->withSum('opportunityProduct', 'sale_quantity'),
+    // ->withSum('opportunityProduct', 'sale_amount') 
+    // Teriamos o mesmo resultado
+    // Porém o código ->withSum faz com que crie colunas na propriedade query, e isso desabilita a seleção de colunas customizada
+    // Por isso a troca de um código simples para outro mais verboso
+    // Esse não é um caso sério, poderia deixar withSum tranquilamente, mas eu quis escrever o código mais verboso 
+    // para poder funcionar o recurso page[columns] mesmo que não esteja sendo utilizado no momento
   }
 
   /**
