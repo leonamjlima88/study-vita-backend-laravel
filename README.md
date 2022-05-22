@@ -43,7 +43,7 @@ Contém métodos para pesquisa de forma dinâmica. Qualquer repository que imple
 ### Model
 Entidade que reflete a tabela do banco de dados e possibilita o CRUD. Algumas model contém casts (float, boolean, enum). Contém conversão da model para DTO.
 
-### O que não foi feito?
+## O que não foi feito?
 - Autenticação JWT
 - Plano de testes
 - Laravel Telescope
@@ -52,7 +52,7 @@ Entidade que reflete a tabela do banco de dados e possibilita o CRUD. Algumas mo
 Observação: Desenvolvi outro projeto backend com esses recursos. Porém, devido ao meu tempo escasso e desconhecimento de recursos no frontend optei por fazer um downgrade do projeto backend.
 Também vou disponibilizar o outro projeto backend.
 
-### Instalação do projeto
+## Instalação do projeto
 Requer php ^8.0.2
 É só baixar o projeto, rodar composer install e php artisan serve. No meu caso utilizei laradock com nginx. É necessário criar um banco de dados no MySQL e configurar o arquivo .env
 
@@ -63,9 +63,66 @@ Requer php ^8.0.2
 - DB_USERNAME=mysqlUsuario
 - DB_PASSWORD=mysqlSenha
 
-
 Execute o método php artisan migrate para criar as tabelas
 
+### Requests para Insomnia ou Postman
+Todos os métodos precisam ter no Header
+- Content-type: application/json
+- X-Locale: pt_br
+
+## Explicação sobre a configuração de página no backend
+A configuração de página tem os seguintes parâmetros
+- page[limit] (Limitar registros por página. Exemplo: 10)
+- page[current] (Página a ser exibida. Exemplo: 1)
+- page[paginate] (Tipo de paginação. 0-Paginate, 1-SimplePaginate 2-Cursor, 3-Sem paginação. Exemplo: 1)
+- page[cursor] (Link do cursor para páginas que desejam adicionar scroll infinito. Exemplo: eyJwcm9kdWN0LmlkIjoxOSwiX3BvaW50c1RvTmV4dEl0ZW1zIjp0cnVlfQ
+- page[columns] (Colunas a serem exibidas no retorno. Exemplo: product.id, product.name)
+- page[onlyData] (Retorna os dados da consulta sem a informação da paginação. Exemplo: 1
+
+## Explicação sobre a filtragem dinâmica das tabelas
+A query param deve seguir a lógica seguinte:
+- filter[Condicao][NomeDaTabela.NomeDoCampo][Operador]
+
+Opções de Condicao
+- where
+- orWhere
+
+Opções de NomeDaTabela
+- customer
+- seller
+- product
+- opportunity
+
+Opções de Nome do Campo
+- Qualquer campo que contenha na tabela a ser filtrada. Vamos supor que queremos filtrar o campo name da tabela product. Seria o seguinte exemplo: product.name
+- Se quisessemos filtrar outro campo de product, seria: product.reference_code
+- Se fosse outra tabela como por exemplo seller, seria: seller.name ou seller.ein ou seller.address.
+
+Opções de Operador
+- equal (Igual "=" )
+- greater (Maior ">")
+- less (Menor "<")
+- greaterOrEqual (Maior ou Igual ">=")
+- lessOrEqual (Menor ou Igual "<=")
+- different (Diferente "!=")
+- likeInitial (Método Like que procura com o que começa)
+- likeFinal (Método Like que procura com o que termina)
+- likeAnywhere (Método Like que procura em qualquer parte)
+- likeEqual (Método Like que procura com o que é idêntico)
+
+Com base nessas explicações, vamos criar alguns exemplos
+
+Filtrar vendedor por um conjunto de caracteres que contenha no início do campo nome.
+filter[where][seller.name][likeInitial] : "conteúdo a ser pesquisado"
+
+Filtrar vendedor por um cnpj que seja igual a...
+filter[where][seller.ein][equal] : "conteúdo a ser pesquisado"
+
+Filtrar oportunidades de venda por período de cadastro
+filter[where][opportunity.created_at][greaterOrEqual] : "2022-05-01T00:00:00"
+filter[where][opportunity.created_at][lessOrEqual] : "2022-05-22T23:59:59"
+
+Você pode combinar where com orWhere, incluir quantos filtros você quiser ao mesmo tempo.
 
 ## License
 
