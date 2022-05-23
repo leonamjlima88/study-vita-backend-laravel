@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -29,6 +30,13 @@ return new class extends Migration
             $table->string('email', 100)->nullable();
             $table->timestamps();
         });
+
+        // Poderia ter utilizado a factory, porém como não sei gerar cpf/cnpj válidos aleatórios, decidi fazer assim mesmo
+        DB::table('seller')->insert([
+            ['name' => 'Vend. Maria Clara', 'ein' => '08776810000146'],
+            ['name' => 'Vend. Sophia', 'ein' => '34644477000121'],
+            ['name' => 'Vend. Roberto', 'ein' => '35176034000116'],
+        ]); 
     }
 
     /**
