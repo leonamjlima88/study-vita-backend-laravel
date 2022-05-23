@@ -52,6 +52,9 @@ Entidade que reflete a tabela do banco de dados e possibilita o CRUD. Algumas mo
 Observação: Desenvolvi outro projeto backend com esses recursos. Porém, devido ao meu tempo escasso e desconhecimento de recursos no frontend optei por fazer um downgrade do projeto backend.
 Também vou disponibilizar o outro projeto backend.
 
+## Link do outro projeto que não tem frontend
+- https://github.com/leonamjlima88/study-vita-backend-laravel-depreciated
+
 ## Instalação do projeto
 Requer php ^8.0.2
 É só baixar o projeto, rodar composer install e php artisan serve. No meu caso utilizei laradock com nginx. É necessário criar um banco de dados no MySQL e configurar o arquivo .env
